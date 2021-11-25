@@ -1,19 +1,13 @@
 import Homepage from "./pages/Homepage";
+import Shop from "./pages/shop/Shop";
 import { Routes, Route } from "react-router-dom";
-
-const Hatspage = () => {
-  return (
-    <div>
-      <h1>Hats</h1>
-    </div>
-  );
-};
+import "./App.css";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Homepage />} />
-      <Route path="/hats" element={<Hatspage />} />
+      <Route path="/shop" element={<Shop />} />
     </Routes>
   );
 }
