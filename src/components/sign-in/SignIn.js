@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CustomButton from "../custom-button/CustomButton";
 import FormInput from "../form-input/FormInput";
+import { signInWithGoogle } from "../../firebase/firebase.utils";
 import "./SignIn.styles.scss";
 
 const SignIn = (props) => {
@@ -18,7 +19,6 @@ const SignIn = (props) => {
   };
   const submitFormHandler = (e) => {
     e.preventDefault();
-    console.log(email, password);
     setEmail("");
     setPassword("");
   };
@@ -46,7 +46,12 @@ const SignIn = (props) => {
           label="Password"
           required
         />
-        <CustomButton type="submit">Sign In</CustomButton>
+        <div className="buttons">
+          <CustomButton type="submit">Sign In</CustomButton>
+          <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+            Sign In With Google
+          </CustomButton>
+        </div>
       </form>
     </div>
   );
