@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
-const config = {
+const firebaseConfig = {
   apiKey: "AIzaSyC1sN_5-SQMLxqt5_xwX6xZ8Rs_iO7gI94",
   authDomain: "clothingfunc.firebaseapp.com",
   projectId: "clothingfunc",
@@ -11,34 +11,35 @@ const config = {
   appId: "1:77738594501:web:088b69176b1f8adfd1e0ac",
 };
 
-initializeApp(config);
-
+export const app = initializeApp(firebaseConfig);
+//info: instantiating a new GoogleAuthProvider
 const provider = new GoogleAuthProvider();
-
 provider.setCustomParameters({ prompt: "select_account" });
 
-// info: adding a function to create add the user to database
-export const createUser = async (authUser, additionalData) => {
+// info: storing the user details in firestore db
+export const createUserProfile = async (authUser, additionalData) => {
   if (!authUser) return;
-
+  // info: Get the document reference
   const userRef = doc(db, `users/${authUser.uid}`);
-  const userData = await getDoc(userRef);
+  // info: Get the document reference snapshot
+  const userSnapShot = await getDoc(userRef);
 
-  if (!userData.exists()) {
-    const { displayName, email } = authUser;
-    const createdAt = new Date();
-
-    await setDoc(userRef, {
-      displayName,
-      email,
-      createdAt,
-      ...additionalData,
-    });
+  if (!userSnapShot.exists()) {
+    const { displayName, email, uid: id } = authUser;
+    try {
+      await setDoc(userRef, {
+        id,
+        displayName,
+        email,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
-
   return userRef;
 };
 
-export const db = getFirestore();
 export const auth = getAuth();
+export const db = getFirestore();
 export const signInWithGoogle = () => signInWithPopup(auth, provider);
