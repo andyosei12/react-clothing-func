@@ -2,11 +2,15 @@ import { Link, NavLink } from "react-router-dom";
 import { auth } from "../../firebase/firebase.utils";
 import { useSelector } from "react-redux";
 
-import "./Header.styles.scss";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
+
+import CartIcon from "../cart-icon/CartIcon";
+import "./Header.styles.scss";
+import CartDropdown from "../cart-dropdown.js/CartDropdown";
 
 const Header = () => {
   const currentUser = useSelector((state) => state.user.currentUser);
+  const showCartDropdown = useSelector((state) => state.cart.cartDropdown);
 
   return (
     <div className="header">
@@ -29,7 +33,9 @@ const Header = () => {
             Sign in
           </NavLink>
         )}
+        <CartIcon />
       </div>
+      {showCartDropdown && <CartDropdown />}
     </div>
   );
 };
