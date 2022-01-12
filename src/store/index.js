@@ -1,10 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
+// import { configureStore } from "@reduxjs/toolkit";
+import { createStore } from "redux";
+import { persistStore } from "redux-persist";
 
-import userReducer from "./user/user-slice";
-import cartReducer from "./cart/cart-slice";
+import rootReducer from "./root-reducer";
 
-const store = configureStore({
-  reducer: { user: userReducer, cart: cartReducer },
-});
-
-export default store;
+export const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+export const persistor = persistStore(store);
