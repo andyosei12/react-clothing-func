@@ -4,16 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { auth, createUserProfile } from "./firebase/firebase.utils";
 import Header from "./components/header/Header";
 import Homepage from "./pages/Homepage";
+import CheckoutPage from "./pages/checkout/Checkout";
 import SignInPage from "./pages/signin/SignInPage";
 import Shop from "./pages/shop/Shop";
 import "./App.css";
 import { onSnapshot } from "@firebase/firestore";
-import { userActions } from "./store/user-slice";
+import { userActions } from "./store/user/user-slice";
 import SignInWrapper from "./components/sign-in/SignInWrapper";
+import { selectCurrentUser } from "./store/user/user.selectors";
 
 let unsubscribeFromAuth;
 function App() {
-  const currentUser = useSelector((state) => state.user.currentUser);
+  const currentUser = useSelector((state) => selectCurrentUser(state));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,6 +50,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/shop" element={<Shop />} />
         <Route
           path="/signin"
