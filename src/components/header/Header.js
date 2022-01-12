@@ -7,10 +7,12 @@ import { ReactComponent as Logo } from "../../assets/crown.svg";
 import CartIcon from "../cart-icon/CartIcon";
 import "./Header.styles.scss";
 import CartDropdown from "../cart-dropdown.js/CartDropdown";
+import { selectCurrentUser } from "../../store/user/user.selectors";
+import { selectCartDropdown } from "../../store/cart/cart-selectors";
 
 const Header = () => {
-  const currentUser = useSelector((state) => state.user.currentUser);
-  const showCartDropdown = useSelector((state) => state.cart.cartDropdown);
+  const currentUser = useSelector((state) => selectCurrentUser(state));
+  const showCartDropdown = useSelector((state) => selectCartDropdown(state));
 
   return (
     <div className="header">
