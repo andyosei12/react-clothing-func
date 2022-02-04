@@ -1,4 +1,3 @@
-import { Link, NavLink } from "react-router-dom";
 import { auth } from "../../firebase/firebase.utils";
 import { useSelector } from "react-redux";
 
@@ -10,35 +9,36 @@ import CartDropdown from "../cart-dropdown.js/CartDropdown";
 import { selectCurrentUser } from "../../store/user/user.selectors";
 import { selectCartDropdown } from "../../store/cart/cart-selectors";
 
+import {
+  HeaderContainer,
+  LogoContainer,
+  OptionsContainer,
+  OptionNavLink,
+} from "./Header.styles";
+
 const Header = () => {
   const currentUser = useSelector((state) => selectCurrentUser(state));
   const showCartDropdown = useSelector((state) => selectCartDropdown(state));
 
   return (
-    <div className="header">
-      <Link className="logo-container" to="/">
+    <HeaderContainer>
+      <LogoContainer to="/">
         <Logo className="logo" />
-      </Link>
-      <div className="options">
-        <NavLink className="option" to="/shop">
-          Shop
-        </NavLink>
-        <NavLink className="option" to="/shop">
-          Contact
-        </NavLink>
+      </LogoContainer>
+      <OptionsContainer>
+        <OptionNavLink to="/shop">Shop</OptionNavLink>
+        <OptionNavLink to="/shop">Contact</OptionNavLink>
         {currentUser ? (
-          <div className="option" onClick={() => auth.signOut()}>
+          <OptionNavLink as="div" onClick={() => auth.signOut()}>
             Sign out
-          </div>
+          </OptionNavLink>
         ) : (
-          <NavLink to="/signin" className="option">
-            Sign in
-          </NavLink>
+          <OptionNavLink to="/signin">Sign in</OptionNavLink>
         )}
         <CartIcon />
-      </div>
+      </OptionsContainer>
       {showCartDropdown && <CartDropdown />}
-    </div>
+    </HeaderContainer>
   );
 };
 
