@@ -12,11 +12,16 @@ import { onSnapshot } from "@firebase/firestore";
 import { userActions } from "./store/user/user-slice";
 import SignInWrapper from "./components/sign-in/SignInWrapper";
 import { selectCurrentUser } from "./store/user/user.selectors";
+// import { selectCollectionsForPreview } from "./store/shop/shop.selectors";
+// import { addCollectionAndDocuments } from "./firebase/firebase.utils";
 
 let unsubscribeFromAuth;
 function App() {
   const currentUser = useSelector((state) => selectCurrentUser(state));
   const dispatch = useDispatch();
+  // const collections = useSelector((state) =>
+  //   selectCollectionsForPreview(state)
+  // );
 
   useEffect(() => {
     unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
@@ -38,6 +43,7 @@ function App() {
         }
       } else {
         dispatch(userActions.setCurrentUser(userAuth));
+        // addCollectionAndDocuments("collections", collections);
       }
     });
 
